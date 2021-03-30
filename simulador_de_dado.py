@@ -4,29 +4,22 @@ import PySimpleGUI as Sg
 
 class SimuladorDeDado:
     def __init__(self):
-        self.valor_minimo = 1
-        self.valor_maximo = 6
+        self.num = random.randint(1, 6)
         # Layout
-        self.layout = [
+        layout = [
             [Sg.Text('Jogar o dado?')],
             [Sg.Button('Sim'), Sg.Button('Não')]
         ]
+        self.janela = Sg.Window('Simulador de Dado', layout=layout)
+        self.eventos, self.valores = self.janela.read()
 
     def iniciar(self):
-        self.janela = Sg.Window('Simulador de Dado', layout=self.layout)
-        self.eventos, self.valores = self.janela.Read()
         try:
-            if self.eventos == 'Sim' or self.eventos == 's':
-                self.GerarValorDoDado()
-            elif self.eventos == 'Não' or self.eventos == 'n':
-                print('Agradecemos a sua participação!')
-            else:
-                print('Favor digitar sim ou não')
+            return lambda: self.eventos == 'sim', print(self.num) \
+                if self.eventos == 'Sim' else print('Digite sim da próxima vez para gerar um valor')
         except:
             print('Ocorreu um erro ao recerber sua resposta')
 
-    def GerarValorDoDado(self):
-        print(random.randint(self.valor_minimo, self.valor_maximo))
 
-simulador = SimuladorDeDado()
-simulador.iniciar()
+teste = SimuladorDeDado()
+teste.iniciar()
